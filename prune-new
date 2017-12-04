@@ -1,0 +1,21 @@
+#!/usr/local/bin/ruby -w
+
+apps = `cf a`
+app_names = apps.split("\n").drop(4).map { |a| a.split().first }
+new_apps = app_names.select { |a| a.include?("-new") }
+
+puts "New apps found:"
+new_apps.each do |a|
+  puts "- #{a}"
+end
+
+puts "\nWould you like to delete them? [yN]"
+unless %w(y yes).include?(STDIN.gets.chomp.downcase)
+  puts "Aborting"
+  exit
+end
+
+new_apps.each do |a|
+  puts "Deleting #{a}..."
+  `cf delete #{a} -f`
+end
