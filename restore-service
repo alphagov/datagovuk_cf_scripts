@@ -1,0 +1,16 @@
+#!/usr/local/bin/ruby -w
+
+filename = ARGV[0]
+service_name = filename.split('.json').first
+command = 'cups'
+
+services = `cf s`
+command = 'uups' if services.include?(service_name)
+
+puts "Going to restore '#{service_name}' from #{filename}, do you wish to continue? [yN]"
+unless %w(y yes).include?(STDIN.gets.chomp.downcase)
+  puts "Aborting"
+  exit
+end
+
+`cf #{command} #{service_name} -p #{filename}`
