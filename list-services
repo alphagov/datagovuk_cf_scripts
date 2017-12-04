@@ -14,12 +14,12 @@ services = services.map { |s| headers.zip(s).to_h }
 services.each do |s|
   if s["service"] == "user-provided"
     first_bound_app = `cf service #{s['name']}`.split('Bound apps: ').last.split(',').first
-    s["credentials"] = JSON.parse(`list-credentials #{first_bound_app}`) unless s["name"].include?('logit')
+    s["credentials"] = JSON.parse(`./list-credentials #{first_bound_app}`) unless s["name"].include?('logit')
     s["syslog_drain_url"] = nil
-    
+
     if s["name"].include?('logit')
       s["credentials"] = {}
-      s["syslog_drain_url"] = `syslog-drain #{first_bound_app}`
+      s["syslog_drain_url"] = `./syslog-drain #{first_bound_app}`
     end
   end
 end
