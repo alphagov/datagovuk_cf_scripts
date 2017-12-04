@@ -8,3 +8,5 @@ Cloudfoundry Scripts for data.gov.uk
 * `backup-credentials` - script that saves JSONs for all of the secrets repos
 * `restore-credentials <PATH_TO_DUMP_JSON>` - takes a saved json from `backup-` or `list-credentials` and creates or updates the service
 * `prune-old` & `prune-new` - easy delete for apps with `-old` or `-new` suffixes, e.g. from (old/failed) blue-green deploys
+* `list-services` - dumps a JSON list of all your services, including credentials for any user provided services, and syslog drain url for any service with 'logit' in its name
+* `syslog-drain` - prints the syslog drain url for a given app

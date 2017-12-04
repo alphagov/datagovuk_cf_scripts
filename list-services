@@ -1,0 +1,27 @@
+#!/usr/local/bin/ruby -w
+require 'json'
+
+
+services = `cf s`
+services = services.split("\n").drop(3).map { |s| s.split().take(3) }
+headers = services.first
+services = services.drop(1)
+
+# Map the headers in...
+services = services.map { |s| headers.zip(s).to_h }
+
+# Do a quick list-credentials pass for any user-provided services
+services.each do |s|
+  if s["service"] == "user-provided"
+    first_bound_app = `cf service #{s['name']}`.split('Bound apps: ').last.split(',').first
+    s["credentials"] = JSON.parse(`list-credentials #{first_bound_app}`) unless s["name"].include?('logit')
+    s["syslog_drain_url"] = nil
+    
+    if s["name"].include?('logit')
+      s["credentials"] = {}
+      s["syslog_drain_url"] = `syslog-drain #{first_bound_app}`
+    end
+  end
+end
+
+puts JSON.pretty_generate(services.map { |s| s['name'] }.flatten.zip(services).to_h)
