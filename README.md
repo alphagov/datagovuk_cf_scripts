@@ -5,3 +5,4 @@ Cloudfoundry Scripts for data.gov.uk
 
 * `set-credential <APP_NAME> <KEY> <VALUE>` - sets a single value on a user provided cf service
 * `list-credential <APP_NAME>` - spits out a JSON of secrets an app has access to
+* `backup-credentials` - script that saves JSONs for all of the secrets repos
