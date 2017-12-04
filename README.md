@@ -1,6 +1,9 @@
 # datagovuk_cf_scripts
 Cloudfoundry Scripts for data.gov.uk
 
+## ENV
+* `CF_SECRETS_IDENTIFIER` - default 'secrets' - this value is whatever you call your credential-carrying user provided services
+
 ## Contents
 
 * `set-credential <APP_NAME> <KEY> <VALUE>` - sets a single value on a user provided cf service
