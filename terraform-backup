@@ -1,0 +1,17 @@
+#!/usr/local/bin/ruby -w
+require 'json'
+
+publish_prod_secrets = JSON.parse(`scripts/terraform-list-credentials publish-data-beta`)
+publish_stag_secrets = JSON.parse(`scripts/terraform-list-credentials publish-data-beta-staging`)
+find_prod_secrets = JSON.parse(`scripts/terraform-list-credentials find-data-beta`)
+find_stag_secrets = JSON.parse(`scripts/terraform-list-credentials find-data-beta-staging`)
+syslog_drain = JSON.parse(`scripts/terraform-syslog-drain publish-data-beta`)
+
+secrets = [publish_prod_secrets, publish_stag_secrets, find_prod_secrets, find_stag_secrets].reduce(&:merge)
+secrets = secrets.map { |k, v| [k, JSON.dump(v)] }.to_h
+secrets = secrets.merge(syslog_drain)
+secrets = JSON.pretty_generate(secrets)
+
+vars = File.new('terraform.tfvars.json', 'w')
+vars.write(secrets)
+vars.close
