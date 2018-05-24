@@ -1,11 +1,11 @@
 #!/usr/local/bin/ruby -w
 require 'json'
 
-publish_prod_secrets = JSON.parse(`./terraform-list-credentials publish-data-beta`)
+publish_prod_secrets = JSON.parse(`./terraform-list-credentials publish-data-beta-production`)
 publish_stag_secrets = JSON.parse(`./terraform-list-credentials publish-data-beta-staging`)
 find_prod_secrets = JSON.parse(`./terraform-list-credentials find-data-beta`)
 find_stag_secrets = JSON.parse(`./terraform-list-credentials find-data-beta-staging`)
-syslog_drain = JSON.parse(`./terraform-syslog-drain publish-data-beta`)
+syslog_drain = JSON.parse(`./terraform-syslog-drain publish-data-beta-production`)
 
 secrets = [publish_prod_secrets, publish_stag_secrets, find_prod_secrets, find_stag_secrets].reduce(&:merge)
 secrets = secrets.map { |k, v| [k, JSON.dump(v)] }.to_h
