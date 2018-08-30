@@ -1,3 +1,12 @@
+# Deprecation
+
+**This repo is deprecated**
+
+We are deprecating and archiving
+https://github.com/alphagov/datagovuk_infrastructure and since this repo is only
+ever used from there, we are deprecating and archiving this as well.
+
+
 # datagovuk_cf_scripts
 Cloudfoundry Scripts for data.gov.uk
 
